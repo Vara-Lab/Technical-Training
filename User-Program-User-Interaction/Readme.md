@@ -254,7 +254,8 @@ async fn transfer_tokens(
     to: &ActorId,
     amount_tokens: u128,
 ) -> Result<(), ()> {
-    let reply = msg::send_for_reply_as::<_, FTEvent>(
+    
+    let _reply = msg::send_for_reply_as::<_, FTEvent>(
         *token_address,
         FTAction::Transfer {
             from: *from,
@@ -267,14 +268,7 @@ async fn transfer_tokens(
     .expect("Error in sending a message `FTokenAction::Message`")
     .await;
 
-    match reply {
-        Ok(FTEvent::Transfer {
-            from,
-            to,
-            amount,
-        }) => Ok(()),
-        _ => Err(()),
-    }
+    Ok(())
 }
 
 fn get_mut_wallet(wallets: &mut HashMap<WalletId, Wallet>, wallet_id: WalletId) -> &mut Wallet {
